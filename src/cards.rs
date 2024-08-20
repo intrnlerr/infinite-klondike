@@ -2,10 +2,9 @@ use rand::Rng;
 
 use crate::Suit;
 
-
 #[derive(Debug, Clone, Copy)]
 /// a BitCard has the following layout
-/// 
+///
 /// ```
 /// |-n/a-| |-pip-| |-suit-|
 ///    7    6     2 1      0
@@ -20,7 +19,7 @@ impl BitCard {
     }
 
     /// returns the "number" or "pips" or whatever the fuck you call it
-    /// 
+    ///
     /// - 0 -> A
     /// - 1 -> 2
     /// - 2 -> 3
@@ -44,7 +43,7 @@ impl BitCard {
             0b01 => Suit::Heart,
             0b10 => Suit::Club,
             0b11 => Suit::Spade,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 
@@ -76,7 +75,6 @@ impl BitCard {
     }
 }
 
-
 pub struct CardStack {
     // since we only have at most 13 cards, a byte is small enough to store the size
     len: u8,
@@ -86,7 +84,10 @@ pub struct CardStack {
 
 impl CardStack {
     pub fn empty() -> Self {
-        Self { len: 0, cards: [BitCard(0); 13] }
+        Self {
+            len: 0,
+            cards: [BitCard(0); 13],
+        }
     }
 
     pub fn is_empty(&self) -> bool {
@@ -113,7 +114,7 @@ impl CardStack {
 
     pub fn len(&self) -> u8 {
         self.len
-    } 
+    }
 
     pub fn pop(&mut self) -> Option<BitCard> {
         if self.is_empty() {
@@ -141,7 +142,8 @@ impl CardStack {
 
     pub(crate) fn append(&mut self, from: &mut Self) {
         debug_assert!(self.len + from.len <= 13);
-        self.cards[self.len as usize..(self.len + from.len) as usize].copy_from_slice(&from.cards[..from.len as usize]);
+        self.cards[self.len as usize..(self.len + from.len) as usize]
+            .copy_from_slice(&from.cards[..from.len as usize]);
         self.len += from.len;
         from.len = 0;
     }
@@ -158,7 +160,10 @@ pub struct Column {
 
 impl Column {
     pub fn new(rng: &mut impl Rng, under: u32) -> Self {
-        Self { visible: CardStack::one_random(rng), under }
+        Self {
+            visible: CardStack::one_random(rng),
+            under,
+        }
     }
 
     pub fn is_visible_empty(&self) -> bool {

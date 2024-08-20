@@ -154,11 +154,10 @@ impl State {
             }
             if stack.under == 0 && stack.is_visible_empty() {
                 // draw empty
-                draw_atlas_item(
+                draw_card_outline(
                     atlas,
                     48.0 * (x as f32 - 1.0) + camera_offset_x,
                     Self::TABLEAU_Y_OFFSET + self.camera.y,
-                    418.0,
                 )
             } else {
                 for (n, card) in stack.visible().iter().enumerate() {
@@ -190,12 +189,11 @@ impl State {
                     self.camera.y,
                 )
             } else {
-                draw_atlas_item(
+                draw_card_outline(
                     atlas,
                     48.0 * (local_x as f32 - 1.0) + foundation_camera_x_offset,
                     self.camera.y,
-                    418.0,
-                )
+                );
             }
         }
         for (n, card) in self.grabbed_stack.iter().enumerate() {
@@ -292,6 +290,10 @@ impl State {
             }
         }
     }
+}
+
+fn draw_card_outline(atlas: Texture2D, x: f32, y: f32) {
+    draw_atlas_item(atlas, x, y, 418.0)
 }
 
 #[macroquad::main(window_conf)]
